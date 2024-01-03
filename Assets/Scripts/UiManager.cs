@@ -85,8 +85,18 @@ public class UiManager : MonoBehaviour
 
     private void OnModeSelect(GameStatus status)
     {
-        _isRoundStarted = true;
-        board.StartRound(status);
-        inputController.ActivateInput(true, 0.5f);
+        switch (status)
+        {
+            case GameStatus.SINGLE_PLAYER:
+                _isRoundStarted = true;
+                board.StartRound(status);
+                inputController.ActivateInput(true, 0.5f);
+                break;
+            case GameStatus.MULTI_PLAYER:
+                Debug.Log("Multiplayer is in WIP------------------");
+            break;
+        }
+
+
     }
 }

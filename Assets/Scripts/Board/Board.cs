@@ -31,8 +31,6 @@ namespace board
         private List<CellBase> _cellBases;
         private List<int> _cellBaseIndexes;
         private List<Ball> _dropedBalls;
-        private float _boardScale = 1;
-        private float _boardTotalHeight = 0;
         private bool _isBallDropping;
         private bool _isPlayer = true;
         private bool _isStartRound = true;
@@ -114,10 +112,9 @@ namespace board
             }
         }
 
-        [Obsolete]
         private CellBase GetRondomCellBase()
         {
-            int index = UnityEngine.Random.RandomRange(0, _cellBaseIndexes.Count - 1);
+            int index = UnityEngine.Random.Range(0, _cellBaseIndexes.Count - 1);
             CellBase cellBaseItem = _cellBases[_cellBaseIndexes[index]];
             if (cellBaseItem.IsFull)
             {
