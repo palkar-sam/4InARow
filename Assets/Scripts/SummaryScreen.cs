@@ -24,7 +24,7 @@ public class SummaryScreen : MonoBehaviour
             case GameStatus.DRAW:
                 statusText.text = drawtext;
                 break;
-            default :
+            default:
                 statusText.text = "No Case Found!";
                 break;
         }

@@ -27,11 +27,10 @@ namespace board
         public event Action OnBoardFull;
         public event Action<bool> OnMatchFound;
 
-        private BoardData boardData;
-        private List<CellBase> cellBases;
-        private List<int> cellBaseIndexes;
-        private List<Ball> dropedBalls;
-
+        private BoardData _boardData;
+        private List<CellBase> _cellBases;
+        private List<int> _cellBaseIndexes;
+        private List<Ball> _dropedBalls;
         private float _boardScale = 1;
         private float _boardTotalHeight = 0;
         private bool _isBallDropping;
@@ -59,7 +58,7 @@ namespace board
             if (!_isStartRound || _isBallDropping)
                 return;
 
-            CellBase cellBaseObj = cellBases.Find(cellBaseItem => cellBaseItem.CellBaseId == targetObject.CellBaseId);
+            CellBase cellBaseObj = _cellBases.Find(cellBaseItem => cellBaseItem.CellBaseId == targetObject.CellBaseId);
             cellBaseObj.FillCell();
             _isBallDropping = true;
             Vector3 targetPos = targetObject.transform.position;//new Vector3(0,targetObject.transform.position.y,0);
@@ -68,8 +67,8 @@ namespace board
             ball.transform.localPosition += new Vector3(0, cellHeight, 0);
             ball.OnBallDropFinished += OnBallDropFinished;
 
-            dropedBalls[maxRows * cellBaseObj.CellBaseId + cellBaseObj.RemaingCellCount] = ball;
-            boardData.UpdateCell(_isPlayer, cellBaseObj.CellBaseId, cellBaseObj.RemaingCellCount);
+            _dropedBalls[maxRows * cellBaseObj.CellBaseId + cellBaseObj.RemaingCellCount] = ball;
+            _boardData.UpdateCell(_isPlayer, cellBaseObj.CellBaseId, cellBaseObj.RemaingCellCount);
         }
 
         public void StartRound(GameStatus roundType)
@@ -88,41 +87,41 @@ namespace board
         {
             _isBallDropping = false;
             _isPlayer = true;
-            boardData.ResetData();
+            _boardData.ResetData();
 
             Ball tempBall = null;
-            for (int i = 0; i < dropedBalls.Count; i++)
+            for (int i = 0; i < _dropedBalls.Count; i++)
             {
-                tempBall = dropedBalls[i];
+                tempBall = _dropedBalls[i];
                 if (tempBall != null)
                 {
-                    dropedBalls[i].Clear();
-                    dropedBalls[i].OnBallDropFinished -= OnBallDropFinished;
-                    Destroy(dropedBalls[i].gameObject);
+                    _dropedBalls[i].Clear();
+                    _dropedBalls[i].OnBallDropFinished -= OnBallDropFinished;
+                    Destroy(_dropedBalls[i].gameObject);
                 }
 
-                dropedBalls[i] = null;
+                _dropedBalls[i] = null;
             }
 
             tempBall = null;
-            cellBaseIndexes.Clear();
+            _cellBaseIndexes.Clear();
             _cellBaseFullCount = 0;
 
-            for (int i = 0; i < cellBases.Count; i++)
+            for (int i = 0; i < _cellBases.Count; i++)
             {
-                cellBaseIndexes.Add(i);
-                cellBases[i].ResetData();
+                _cellBaseIndexes.Add(i);
+                _cellBases[i].ResetData();
             }
         }
 
         [Obsolete]
         private CellBase GetRondomCellBase()
         {
-            int index = UnityEngine.Random.RandomRange(0, cellBaseIndexes.Count - 1);
-            CellBase cellBaseItem = cellBases[cellBaseIndexes[index]];
+            int index = UnityEngine.Random.RandomRange(0, _cellBaseIndexes.Count - 1);
+            CellBase cellBaseItem = _cellBases[_cellBaseIndexes[index]];
             if (cellBaseItem.IsFull)
             {
-                cellBaseIndexes.RemoveAt(index);
+                _cellBaseIndexes.RemoveAt(index);
                 cellBaseItem = GetRondomCellBase();
             }
 
@@ -140,14 +139,14 @@ namespace board
         {
             ball.OnBallDropFinished -= OnBallDropFinished;
 
-            if (boardData.IsMatchFound)
+            if (_boardData.IsMatchFound)
             {
                 _isStartRound = false;
                 SetRoundStatusVisibility(false);
                 OnMatchFound?.Invoke(_isPlayer);
                 PlayMatchAnimation();
             }
-            else if (_cellBaseFullCount == cellBases.Count)
+            else if (_cellBaseFullCount == _cellBases.Count)
             {
                 _isStartRound = false;
                 SetRoundStatusVisibility(false);
@@ -167,21 +166,21 @@ namespace board
 
         private void CreateBoard()
         {
-            boardData = new BoardData();
-            boardData.WinCount = maxWinCount;
-            boardData.CreateBoard(maxRows, maxColls);
+            _boardData = new BoardData();
+            _boardData.WinCount = maxWinCount;
+            _boardData.CreateBoard(maxRows, maxColls);
 
-            cellBases = new List<CellBase>();
-            dropedBalls = new List<Ball>();
-            cellBaseIndexes = new List<int>();
+            _cellBases = new List<CellBase>();
+            _dropedBalls = new List<Ball>();
+            _cellBaseIndexes = new List<int>();
 
             for (int i = 0; i < maxColls; i++)
             {
                 CellBase tempCellBase = Instantiate(cellBase, cellContainer);
                 tempCellBase.SetData(i, maxRows, cellWidth, cellHeight);
                 tempCellBase.OnCellBaseFull += OnCellBaseFull;
-                cellBases.Add(tempCellBase);
-                cellBaseIndexes.Add(i);
+                _cellBases.Add(tempCellBase);
+                _cellBaseIndexes.Add(i);
             }
 
             float scaleX = cellContainer.localScale.x;
@@ -199,7 +198,7 @@ namespace board
             {
                 for (var j = 0; j < maxRows; j++)
                 {
-                    dropedBalls.Add(null);
+                    _dropedBalls.Add(null);
                 }
             }
         }
@@ -211,9 +210,9 @@ namespace board
 
         private void PlayMatchAnimation()
         {
-            for (int i = 0; i < boardData.MatchedIndexes.Count; i++)
+            for (int i = 0; i < _boardData.MatchedIndexes.Count; i++)
             {
-                dropedBalls[boardData.MatchedIndexes[i]].PlayCollectAnim();
+                _dropedBalls[_boardData.MatchedIndexes[i]].PlayCollectAnim();
             }
         }
 

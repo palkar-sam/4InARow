@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    public event Action<GameObject> OnClick;
     public Vector2 MouseWorldPosition { get; private set; }
 
+    public event Action<GameObject> OnClick;
+    
     private bool _isActive;
 
     public void ActivateInput(bool flag, float interval = 0.0f)
@@ -31,8 +32,6 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        
-
         MouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (_isActive && Input.GetMouseButtonUp(0))
@@ -41,7 +40,6 @@ public class InputController : MonoBehaviour
 
             if (hit2D.collider != null)
             {
-                Debug.Log("Ray Cast hit object : " + hit2D.collider.gameObject.name);
                 OnClick?.Invoke(hit2D.collider.gameObject);
             }
         }
@@ -56,5 +54,4 @@ public class InputController : MonoBehaviour
             }
         }
     }
-
 }

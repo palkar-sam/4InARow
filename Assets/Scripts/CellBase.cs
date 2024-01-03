@@ -10,25 +10,25 @@ namespace board
         [SerializeField] private Cell cell;
 
         public int CellBaseId => _id;
-        public int RemaingCellCount => cells.Count - _filledCellCount;
+        public int RemaingCellCount => _cells.Count - _filledCellCount;
         public bool IsFull => _isFull;
 
         public event Action OnCellBaseFull;
 
         private int _id;
-        private List<Cell> cells;
+        private List<Cell> _cells;
         private int _filledCellCount = 0;
         private bool _isFull;
 
         public void SetData(int id, int noOfCells, float cellWidth, float cellHeight)
         {
             _id = id;
-            cells = new List<Cell>();
+            _cells = new List<Cell>();
 
             for(int i = 0; i<noOfCells;i++)
             {
                 Cell tempCell = Instantiate(cell, transform);
-                cells.Add(tempCell);
+                _cells.Add(tempCell);
             }
 
             float totalHeight = cellHeight * noOfCells;
@@ -38,7 +38,7 @@ namespace board
         public void FillCell()
         {
             _filledCellCount++;
-            _isFull = cells.Count == _filledCellCount;
+            _isFull = _cells.Count == _filledCellCount;
 
             if(_isFull)
             {

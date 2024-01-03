@@ -4,6 +4,5 @@ using board;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
-{
-    
+{ 
 }
