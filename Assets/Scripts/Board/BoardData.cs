@@ -37,11 +37,11 @@ public class BoardData
     public void ResetData()
     {
         RestartSearch();
-         for (var i = 0; i < _maxCols; i++)
+        for (var i = 0; i < _maxCols; i++)
         {
             for (var j = 0; j < _maxRows; j++)
             {
-                _cells[i][j] = 0;   
+                _cells[i][j] = 0;
             }
         }
     }
@@ -57,14 +57,12 @@ public class BoardData
         RestartSearch(colIndex, rowIndex);
         CheckHorizontalMatch(colIndex, rowIndex, searchItem);
 
-        Debug.Log("Checking Match With Down : Match : " + _matchFound);
         if (!_matchFound)
         {
             RestartSearch(colIndex, rowIndex);
             CheckVerticalMatch(colIndex, rowIndex, searchItem);
         }
 
-        Debug.Log("Checking Match With Digonally : Match : " + _matchFound);
         if (!_matchFound)
         {
             RestartSearch(colIndex, rowIndex);
@@ -78,64 +76,47 @@ public class BoardData
     private void CheckHorizontalMatch(int colIndex, int rowIndex, int searchItem)
     {
         //Check For Right
-        Debug.Log("Checking Match With Right : Match : " + _matchFound);
         if (CheckLeftOrRight(colIndex, rowIndex, searchItem, 1))
-        {
-            Debug.Log("Item Found Right");
             _matchFound = true;
-        }
 
-        Debug.Log("Checking Match With Left : Match : " + _matchFound);
         if (!_matchFound && CheckLeftOrRight(colIndex, rowIndex, searchItem, -1))
-        {
-            Debug.Log("Item Found Left");
             _matchFound = true;
-        }
     }
 
     private void CheckVerticalMatch(int colIndex, int rowIndex, int searchItem)
     {
         if (CheckDown(colIndex, rowIndex, searchItem))
-        {
-            Debug.Log("Item Found Vertiaclly");
             _matchFound = true;
-        }
     }
 
 
     private bool CheckLeftOrRight(int colIndex, int rowIndex, int searchItem, int dir)
     {
-        string direction = dir > 0 ? "Right" : "Left";
-
-        Debug.Log($"{direction} : ColIndex : {colIndex} : rowIndex : {rowIndex} : count : {_cells[colIndex].Count}: value : {_cells[colIndex][rowIndex]}");
         colIndex += dir;
-        Debug.Log($"{direction} : ColIndex : {colIndex} : search Item : {searchItem}");
 
         if ((dir > 0 && colIndex < _cells.Count || dir < 0 && colIndex >= 0) && _cells[colIndex][rowIndex] == searchItem)
         {
             _foundCount++;
             _matchFoundIndexes.Add(_cells[colIndex].Count * colIndex + rowIndex);
-            Debug.Log($"{direction} : Found Count : {_foundCount}");
 
             if (!(_foundCount == WinCount))
                 CheckLeftOrRight(colIndex, rowIndex, searchItem, dir);
         }
 
-        Debug.Log($"{direction} : Dir : {dir} ----------- ");
         return _foundCount == WinCount;
     }
 
     private bool CheckDown(int colIndex, int rowIndex, int searchItem)
     {
-        Debug.Log($"Down : ColIndex : {colIndex} : rowIndex : {rowIndex} : count : {_cells[colIndex].Count}: value : {_cells[colIndex][rowIndex]}");
+
         rowIndex++;
-        Debug.Log($"Down : rowIndex : {rowIndex} : search Item : {searchItem}");
+
 
         if (rowIndex < _cells[colIndex].Count && _cells[colIndex][rowIndex] == searchItem)
         {
             _foundCount++;
             _matchFoundIndexes.Add(_cells[colIndex].Count * colIndex + rowIndex);
-            Debug.Log($"Down : Found Count : {_foundCount}");
+
 
             if (!(_foundCount == WinCount))
                 CheckDown(colIndex, rowIndex, searchItem);
@@ -149,7 +130,7 @@ public class BoardData
         if (CheckDigonallyUpSide(colIndex, rowIndex, searchItem, 1))
         {
             _matchFound = true;
-            Debug.Log("Item Found Digonally Up Right");
+
         }
 
         if (!_matchFound)
@@ -158,7 +139,7 @@ public class BoardData
             if (CheckDigonallyUpSide(colIndex, rowIndex, searchItem, -1))
             {
                 _matchFound = true;
-                Debug.Log("Item Found Digonally Up left");
+
             }
         }
 
@@ -168,7 +149,7 @@ public class BoardData
             if (CheckDigonallyDownSide(colIndex, rowIndex, searchItem, 1))
             {
                 _matchFound = true;
-                Debug.Log("Item Found Digonally Donw Right");
+
             }
         }
 
@@ -178,7 +159,7 @@ public class BoardData
             if (CheckDigonallyDownSide(colIndex, rowIndex, searchItem, -1))
             {
                 _matchFound = true;
-                Debug.Log("Item Found Digonally Down left");
+
             }
         }
 
@@ -187,18 +168,13 @@ public class BoardData
 
     private bool CheckDigonallyUpSide(int colIndex, int rowIndex, int searchItem, int dir)
     {
-        string dirString = "Left";
-        if (dir > 0)
-            dirString = "Right";
-
-        Debug.Log($"Digonally {dirString} ColIndex : {colIndex} : rowIndex : {rowIndex} : count : {_cells[colIndex].Count}: value : {_cells[colIndex][rowIndex]}");
         colIndex += dir;
         if (dir > 0)
             rowIndex -= dir;
         else
             rowIndex += dir;
 
-        Debug.Log($"Digonally {dirString} ColIndex : {colIndex} : rowIndex : {rowIndex} : search Item : {searchItem}");
+
 
         if ((dir > 0 && colIndex < _cells.Count && rowIndex >= 0
             || dir < 0 && colIndex >= 0 && rowIndex >= 0)
@@ -206,30 +182,21 @@ public class BoardData
         {
             _foundCount++;
             _matchFoundIndexes.Add(_cells[colIndex].Count * colIndex + rowIndex);
-            Debug.Log($"Digonally {dirString} Found Count : {_foundCount}");
 
             if (!(_foundCount == WinCount))
                 CheckDigonallyUpSide(colIndex, rowIndex, searchItem, dir);
         }
 
-        Debug.Log($"Digonally {dirString} Dir : {dir} : ----------- ");
         return _foundCount == WinCount;
     }
 
     private bool CheckDigonallyDownSide(int colIndex, int rowIndex, int searchItem, int dir)
     {
-        string dirString = "Left";
-        if (dir > 0)
-            dirString = "Right";
-
-        Debug.Log($"Digonally Down {dirString} ColIndex : {colIndex} : rowIndex : {rowIndex} : count : {_cells[colIndex].Count}: value : {_cells[colIndex][rowIndex]}");
         colIndex += dir;
         if (dir > 0)
             rowIndex += dir;
         else
             rowIndex -= dir;
-
-        Debug.Log($"Digonally Donw {dirString} ColIndex : {colIndex} : rowIndex : {rowIndex} : search Item : {searchItem}");
 
         if ((dir > 0 && colIndex < _cells.Count && rowIndex < _cells[colIndex].Count
             || dir < 0 && colIndex >= 0 && rowIndex < _cells[colIndex].Count)
@@ -237,13 +204,11 @@ public class BoardData
         {
             _foundCount++;
             _matchFoundIndexes.Add(_cells[colIndex].Count * colIndex + rowIndex);
-            Debug.Log($"Digonally Donw {dirString} Found Count : {_foundCount}");
 
             if (!(_foundCount == WinCount))
                 CheckDigonallyDownSide(colIndex, rowIndex, searchItem, dir);
         }
 
-        Debug.Log($"Digonally Donw {dirString} Dir : {dir} : ----------- ");
         return _foundCount == WinCount;
     }
 

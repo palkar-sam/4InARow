@@ -45,6 +45,16 @@ public class InputController : MonoBehaviour
                 OnClick?.Invoke(hit2D.collider.gameObject);
             }
         }
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            // Check if Back was pressed this frame
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                // Quit the application
+                Application.Quit();
+            }
+        }
     }
 
 }

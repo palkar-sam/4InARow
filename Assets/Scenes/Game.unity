@@ -2139,8 +2139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40129995d0c9d42349bb0bac157c3429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRows: 3
-  maxColls: 3
+  maxRows: 5
+  maxColls: 5
   cellContainer: {fileID: 684772670}
   baseCollider: {fileID: 474465705}
   cellBase: {fileID: -1945089010958198026, guid: c2c2b97cecba945a8b76b3014baecdcd, type: 3}

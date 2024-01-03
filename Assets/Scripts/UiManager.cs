@@ -53,8 +53,6 @@ public class UiManager : MonoBehaviour
 
     private void OnBoardFull()
     {
-        RegisterEvents(false);
-        Debug.Log("UiManager : Board Is Full : Round is Draw!");
         summaryScreen.ActivateScreen(GameStatus.DRAW);
         inputController.ActivateInput(false);
     }

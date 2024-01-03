@@ -56,12 +56,10 @@ namespace board
 
         public void PlayRound(CellBase targetObject)
         {
-            Debug.Log("Target CellBase Id : " + targetObject.CellBaseId);
             if (!_isStartRound || _isBallDropping)
                 return;
 
             CellBase cellBaseObj = cellBases.Find(cellBaseItem => cellBaseItem.CellBaseId == targetObject.CellBaseId);
-            Debug.Log("CellBase Founded : " + cellBaseObj);
             cellBaseObj.FillCell();
             _isBallDropping = true;
             Vector3 targetPos = targetObject.transform.position;//new Vector3(0,targetObject.transform.position.y,0);
@@ -121,12 +119,9 @@ namespace board
         private CellBase GetRondomCellBase()
         {
             int index = UnityEngine.Random.RandomRange(0, cellBaseIndexes.Count - 1);
-            Debug.Log("Random Cellbase Index : " + index);
             CellBase cellBaseItem = cellBases[cellBaseIndexes[index]];
-            Debug.Log("Random Cellbase  Id : " + cellBaseItem.CellBaseId);
             if (cellBaseItem.IsFull)
             {
-                Debug.Log("Random Cellbase  item is full Getting new Cell Base. ----------- ");
                 cellBaseIndexes.RemoveAt(index);
                 cellBaseItem = GetRondomCellBase();
             }
@@ -138,14 +133,11 @@ namespace board
         {
             yield return new WaitForSeconds(0.2f);
             CellBase cellbaseObj = GetRondomCellBase();
-            Debug.Log("Guest Cellbase  Id : " + cellbaseObj.CellBaseId);
             PlayRound(cellbaseObj);
         }
 
         private void OnBallDropFinished(Ball ball)
         {
-            Debug.Log("Ball Drop FInished : -------------------------------");
-
             ball.OnBallDropFinished -= OnBallDropFinished;
 
             if (boardData.IsMatchFound)
@@ -238,7 +230,6 @@ namespace board
 
         private void SetRoundStatusVisibility(bool flag)
         {
-            Debug.Log("Round Text status : visibility : "+flag);
             roundStatusText.gameObject.SetActive(flag);
         }
     }
