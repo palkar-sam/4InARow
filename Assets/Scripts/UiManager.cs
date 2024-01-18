@@ -43,7 +43,7 @@ public class UiManager : MonoBehaviour
 
     private void OnClick(GameObject obj)
     {
-        if (!_isRoundStarted) return;
+        if (!_isRoundStarted || obj == null) return;
 
         CellBase cellBase = obj.GetComponent<CellBase>();
 
@@ -96,7 +96,5 @@ public class UiManager : MonoBehaviour
                 Debug.Log("Multiplayer is in WIP------------------");
             break;
         }
-
-
     }
 }

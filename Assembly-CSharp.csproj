@@ -64,15 +64,21 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/2022.3.10f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Scripts/Components/ScreenPointProvider.cs" />
     <Compile Include="Assets/Scripts/GameConstants.cs" />
     <Compile Include="Assets/Scripts/Board/Board.cs" />
+    <Compile Include="Assets/Scripts/Components/IApplicationDetector.cs" />
     <Compile Include="Assets/Scripts/GameManager.cs" />
     <Compile Include="Assets/Scripts/UiManager.cs" />
     <Compile Include="Assets/Scripts/SummaryScreen.cs" />
     <Compile Include="Assets/Scripts/Pointer.cs" />
+    <Compile Include="Assets/Scripts/Components/IRayCastHitDetector.cs" />
     <Compile Include="Assets/Scripts/CellBase.cs" />
+    <Compile Include="Assets/Scripts/Components/RayCastHitDetector.cs" />
     <Compile Include="Assets/Scripts/ModeSelectionScreen.cs" />
+    <Compile Include="Assets/Scripts/Components/ApplicationDetector.cs" />
     <Compile Include="Assets/Scripts/Board/Cell.cs" />
+    <Compile Include="Assets/Scripts/Components/IScreenPointProvider.cs" />
     <Compile Include="Assets/Scripts/Board/BoardData.cs" />
     <Compile Include="Assets/Scripts/Board/Ball.cs" />
     <Compile Include="Assets/Scripts/InputController.cs" />

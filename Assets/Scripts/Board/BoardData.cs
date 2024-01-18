@@ -75,7 +75,6 @@ public class BoardData
 
     private void CheckHorizontalMatch(int colIndex, int rowIndex, int searchItem)
     {
-        //Check For Right
         if (CheckLeftOrRight(colIndex, rowIndex, searchItem, 1))
             _matchFound = true;
 
@@ -88,7 +87,6 @@ public class BoardData
         if (CheckDown(colIndex, rowIndex, searchItem))
             _matchFound = true;
     }
-
 
     private bool CheckLeftOrRight(int colIndex, int rowIndex, int searchItem, int dir)
     {
@@ -108,15 +106,12 @@ public class BoardData
 
     private bool CheckDown(int colIndex, int rowIndex, int searchItem)
     {
-
         rowIndex++;
-
 
         if (rowIndex < _cells[colIndex].Count && _cells[colIndex][rowIndex] == searchItem)
         {
             _foundCount++;
             _matchFoundIndexes.Add(_cells[colIndex].Count * colIndex + rowIndex);
-
 
             if (!(_foundCount == WinCount))
                 CheckDown(colIndex, rowIndex, searchItem);
@@ -128,42 +123,28 @@ public class BoardData
     private void CheckDigonally(int colIndex, int rowIndex, int searchItem)
     {
         if (CheckDigonallyUpSide(colIndex, rowIndex, searchItem, 1))
-        {
             _matchFound = true;
-
-        }
 
         if (!_matchFound)
         {
             RestartSearch(colIndex, rowIndex);
             if (CheckDigonallyUpSide(colIndex, rowIndex, searchItem, -1))
-            {
                 _matchFound = true;
-
-            }
         }
 
         if (!_matchFound)
         {
             RestartSearch(colIndex, rowIndex);
             if (CheckDigonallyDownSide(colIndex, rowIndex, searchItem, 1))
-            {
                 _matchFound = true;
-
-            }
         }
 
         if (!_matchFound)
         {
             RestartSearch(colIndex, rowIndex);
             if (CheckDigonallyDownSide(colIndex, rowIndex, searchItem, -1))
-            {
                 _matchFound = true;
-
-            }
         }
-
-
     }
 
     private bool CheckDigonallyUpSide(int colIndex, int rowIndex, int searchItem, int dir)
@@ -173,8 +154,6 @@ public class BoardData
             rowIndex -= dir;
         else
             rowIndex += dir;
-
-
 
         if ((dir > 0 && colIndex < _cells.Count && rowIndex >= 0
             || dir < 0 && colIndex >= 0 && rowIndex >= 0)
@@ -212,7 +191,6 @@ public class BoardData
         return _foundCount == WinCount;
     }
 
-
     private void RestartSearch(int colIndex = -1, int rowIndex = -1)
     {
         _foundCount = 1;
@@ -222,5 +200,4 @@ public class BoardData
         if (colIndex > -1 && rowIndex > -1)
             _matchFoundIndexes.Add(_cells[colIndex].Count * colIndex + rowIndex);
     }
-
 }
